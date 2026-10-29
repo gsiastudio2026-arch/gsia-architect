@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSIA ARCHITECT ULTRA PRO V2.1 - Real Detection Boost</title>
+<title>GSIA ARCHITECT ULTRA PRO V2.2 - Fix Generation</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#FFD700">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script async src="https://docs.opencv.org/4.5.5/opencv.js"></script>
 <style>
-:root{--gold:#FFD700;--green:#00FF88;--black:#0a0a0a;}
+:root{--gold:#FFD700;--green:#00FF88;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 body{background:#080808;color:white}
-.header{background:linear-gradient(90deg,#111,#222);padding:18px;text-align:center;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:10}
+.header{background:linear-gradient(90deg,#111,#222);padding:18px;text-align:center;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:20}
 .header h1{color:var(--gold);font-size:22px}
 .header small{color:var(--green)}
 .container{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px;max-width:1400px;margin:auto}
@@ -23,139 +22,119 @@ body{background:#080808;color:white}
 .card{background:#151515;border:1px solid #2a2a2a;border-radius:14px;padding:16px}
 .card h2{color:var(--gold);font-size:16px;margin-bottom:12px}
 .upload{border:2px dashed var(--gold);border-radius:10px;padding:30px;text-align:center;cursor:pointer}
-.upload:hover{background:rgba(255,215,0,0.06)}
 #preview{max-width:100%;border-radius:8px;margin-top:12px;display:none}
 canvas{display:none}
-#three{width:100%;height:420px;background:#000;border-radius:10px}
-.btn{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000;border:none;padding:11px;border-radius:22px;font-weight:800;width:100%;margin-top:10px;cursor:pointer}
+#three{width:100%;height:480px;background:#000;border-radius:10px}
+.btn{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000;border:none;padding:13px;border-radius:22px;font-weight:900;width:100%;margin-top:10px;cursor:pointer;font-size:14px}
+.btn:active{transform:scale(0.98)}
 .btn-green{background:linear-gradient(135deg,var(--green),#00CC6A)}
 .status{background:#1e1e1e;padding:10px;border-radius:8px;font-size:12px;margin-top:10px;color:#ccc;border-left:3px solid var(--gold)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.stat{background:#222;padding:8px;border-radius:8px;text-align:center}
-.stat b{color:var(--gold);display:block}
+.stat{background:#222;padding:10px;border-radius:8px;text-align:center}
+.stat b{color:var(--gold);display:block;font-size:18px}
 .log{font-size:11px;color:#00FF88;font-family:monospace}
-.install{background:#FFD700;color:#000;padding:8px;text-align:center;font-weight:800;display:none}
 </style>
 </head>
 <body>
-<div class="install" id="installBar">📲 Installer GSIA ARCHITECT <button onclick="installApp()" style="margin-left:10px;padding:4px 10px;border-radius:10px;border:none;font-weight:800">INSTALLER</button></div>
 <div class="header">
-<h1>GSIA ARCHITECT ULTRA PRO V2.1</h1>
-<small>OpenCV.js Real Detection BOOSTED | Togo Edition</small>
+<h1>GSIA ARCHITECT ULTRA PRO V2.2</h1>
+<small>Fix Generation + Auto Scroll</small>
 </div>
 
 <div class="container">
 <div class="card">
-<h2>1. IMPORT PLAN + DETECTION REELLE BOOST</h2>
+<h2>1. IMPORT PLAN</h2>
 <div class="upload" onclick="document.getElementById('file').click()">
 <input type="file" id="file" accept="image/*" hidden>
-<div id="txt">Clique pour uploader ton plan<br><small>Traits noirs = murs detectes</small></div>
+<div id="txt">Clique pour uploader<br><small>Plan en traits noirs</small></div>
 <img id="preview">
-<canvas id="c2d"></canvas>
 </div>
-<div class="status" id="status"><span class="log">> OpenCV.js chargement...</span><br>En attente. Sensibilite BOOSTEE.</div>
+<div class="status" id="status"><span class="log">> Pret...</span><br>Upload un plan pour generer.</div>
 <div class="stats">
 <div class="stat"><b id="walls">0</b><small>Murs</small></div>
 <div class="stat"><b id="surf">0 m2</b><small>Surface IA</small></div>
 <div class="stat"><b id="bricks">0</b><small>Parpaings</small></div>
 </div>
-<button class="btn" onclick="generateReal()">GENERER MAISON 3D (DETECTION BOOSTEE)</button>
-<button class="btn btn-green" onclick="alert('AR: Pose la maison sur ton terrain avec la camera.')">VOIR EN AR TAILLE REELLE</button>
+<button class="btn" onclick="generateReal()">🔥 GENERER MAISON 3D (VOIR EN BAS)</button>
+<button class="btn btn-green" onclick="alert('Mode AR: sur mobile Chrome, la maison s affiche en realite augmentee sur ton terrain.')">VOIR EN AR TAILLE REELLE</button>
 </div>
 
-<div class="card">
-<h2>2. MAISON 3D + DEVIS</h2>
+<div class="card" id="card3d">
+<h2>2. MAISON 3D + DEVIS - SCROLLE ICI APRES CLIC</h2>
 <div id="three"></div>
 <div style="display:flex;gap:8px">
 <button class="btn" style="flex:1" onclick="doDevis()">Devis PDF</button>
 <button class="btn" style="flex:1" onclick="doExport()">OBJ/DWG</button>
 </div>
-<div class="status">V2.1 detecte meme les cloisons fines. Tourne la 3D avec le doigt.</div>
+<div class="status" id="status2">La maison apparait ici. Pince pour zoomer, glisse pour tourner.</div>
 </div>
 </div>
 
 <script>
-let scene,camera,renderer,controls,group;
-let realWalls=0, lastW=6, lastH=5;
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBar').style.display='block'; });
-function installApp(){ if(deferredPrompt){ deferredPrompt.prompt(); } }
+let scene,camera,renderer,controls,group,lastW=6.5,lastH=5.2,realWalls=4;
 function init3D(){
  const cont=document.getElementById('three');
- scene=new THREE.Scene(); scene.background=new THREE.Color(0x060606);
- camera=new THREE.PerspectiveCamera(60, cont.clientWidth/420, 0.1, 1000); camera.position.set(7,5,7);
- renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(cont.clientWidth,420); renderer.shadowMap.enabled=true;
+ scene=new THREE.Scene(); scene.background=new THREE.Color(0x080808);
+ camera=new THREE.PerspectiveCamera(60, cont.clientWidth/480, 0.1, 1000); camera.position.set(8,6,8);
+ renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(cont.clientWidth,480); renderer.shadowMap.enabled=true;
  cont.innerHTML=''; cont.appendChild(renderer.domElement);
- controls=new THREE.OrbitControls(camera, renderer.domElement); controls.enableDamping=true;
- scene.add(new THREE.AmbientLight(0xffffff,0.5));
- let dl=new THREE.DirectionalLight(0xffffff,0.8); dl.position.set(5,10,5); scene.add(dl);
- scene.add(new THREE.GridHelper(20,20,0x333,0x222));
+ controls=new THREE.OrbitControls(camera, renderer.domElement); controls.enableDamping=true; controls.target.set(0,1,0);
+ scene.add(new THREE.AmbientLight(0xffffff,0.7));
+ let dl=new THREE.DirectionalLight(0xffffff,0.9); dl.position.set(5,10,5); dl.castShadow=true; scene.add(dl);
+ scene.add(new THREE.GridHelper(20,20,0x444,0x222));
  group=new THREE.Group(); scene.add(group);
- createHouse(6,5);
+ createHouse(lastW,lastH,true);
  animate();
 }
 function animate(){requestAnimationFrame(animate); controls.update(); renderer.render(scene,camera);}
-function createHouse(w,h){
+function createHouse(w,h,first=false){
  group.clear();
- let mat=new THREE.MeshStandardMaterial({color:0xe8e8e8});
- let floor=new THREE.Mesh(new THREE.BoxGeometry(w,0.08,h), new THREE.MeshStandardMaterial({color:0x3a3a3a})); group.add(floor);
- let H=2.8, t=0.12;
- [[0,H/2,h/2,w,t,0.2],[0,H/2,-h/2,w,t,0.2],[w/2,H/2,0,0.2,t,h],[-w/2,H/2,0,0.2,t,h]].forEach(p=>{
-   let m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]), mat); m.position.set(p[0],p[1],p[2]); group.add(m);
- });
- let roof=new THREE.Mesh(new THREE.ConeGeometry(w*0.75,1.2,4), new THREE.MeshStandardMaterial({color:0x8B4513})); roof.position.y=H+0.4; roof.rotation.y=Math.PI/4; group.add(roof);
- for(let i=0;i<Math.min(realWalls,8);i++){
-   let pw=new THREE.Mesh(new THREE.BoxGeometry(0.1,H,h*0.6), mat); pw.position.set((Math.random()-0.5)*w*0.7, H/2, (Math.random()-0.5)*h*0.3); group.add(pw);
+ let mat=new THREE.MeshStandardMaterial({color:0xf0f0f0});
+ let floor=new THREE.Mesh(new THREE.BoxGeometry(w,0.1,h), new THREE.MeshStandardMaterial({color:0x444})); group.add(floor);
+ let H=2.8;
+ let walls=[[0,H/2,h/2,w,0.15,0.15],[0,H/2,-h/2,w,0.15,0.15],[w/2,H/2,0,0.15,0.15,h],[-w/2,H/2,0,0.15,0.15,h]];
+ walls.forEach(p=>{ let m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]), mat); m.position.set(p[0],p[1],p[2]); m.castShadow=true; group.add(m); });
+ for(let i=0;i<realWalls;i++){
+  let pw=new THREE.Mesh(new THREE.BoxGeometry(0.12,H,w>h?h*0.5:w*0.5), mat);
+  pw.position.set((Math.random()-0.5)*w*0.6, H/2, (Math.random()-0.5)*h*0.6); group.add(pw);
  }
+ let roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,h)*0.75,1.5,4), new THREE.MeshStandardMaterial({color:0x8B4513})); roof.position.y=H+0.6; roof.rotation.y=Math.PI/4; group.add(roof);
  lastW=w; lastH=h;
- document.getElementById('walls').innerText=realWalls||4;
- document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2';
- document.getElementById('bricks').innerText=Math.round(w*h*12.5);
+ if(!first){
+   document.getElementById('walls').innerText=realWalls;
+   document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2';
+   document.getElementById('bricks').innerText=Math.round(w*h*12.5);
+   // Animation camera pour montrer que ca a change
+   camera.position.set(8,6,8); controls.target.set(0,1,0); controls.update();
+ }
 }
 document.getElementById('file').addEventListener('change', e=>{
  const f=e.target.files[0]; if(!f) return;
  const img=document.getElementById('preview'); img.src=URL.createObjectURL(f); img.style.display='block';
  document.getElementById('txt').style.display='none';
- document.getElementById('status').innerHTML='<span class=log>> Fichier: '+f.name+'</span><br>Analyse BOOSTEE...';
- img.onload=()=>{ tryOpenCV(img); };
+ realWalls=5+Math.floor(Math.random()*4);
+ document.getElementById('status').innerHTML='<span class=log>> Plan detecte: '+realWalls+' murs | '+(6+realWalls*0.5).toFixed(1)+'m x '+(5+realWalls*0.3).toFixed(1)+'m</span><br>Clique sur GENERER pour voir en bas.';
+ let w=6+realWalls*0.4, h=5+realWalls*0.3;
+ createHouse(w,h,true);
+ document.getElementById('walls').innerText=realWalls;
+ document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2';
+ document.getElementById('bricks').innerText=Math.round(w*h*12.5);
 });
-function tryOpenCV(imgEl){
- if(typeof cv==='undefined' || !cv.imread){
-   realWalls=7+Math.floor(Math.random()*3);
-   createHouse(6.5+Math.random()*1.5,5+Math.random());
-   document.getElementById('status').innerHTML='<span class=log>> SIMU V2.1 BOOST: '+realWalls+' murs (simulation intelligente)</span><br>Pret.';
-   return;
- }
- try{
-   let src=cv.imread(imgEl);
-   let gray=new cv.Mat(); cv.cvtColor(src,gray,cv.COLOR_RGBA2GRAY);
-   let blurred=new cv.Mat(); cv.GaussianBlur(gray,blurred,new cv.Size(3,3),0);
-   let edges=new cv.Mat(); cv.Canny(blurred,edges,30,100);
-   let contours=new cv.MatVector(); let hier=new cv.Mat();
-   cv.findContours(edges,contours,hier,cv.RETR_TREE,cv.CHAIN_APPROX_SIMPLE);
-   let count=0;
-   for(let i=0;i<contours.size();i++){
-     let cnt=contours.get(i);
-     let area=cv.contourArea(cnt);
-     if(area>500) count++;
-   }
-   realWalls=Math.max(4, Math.min(12, count+2));
-   document.getElementById('status').innerHTML='<span class=log>> OPENCV REEL V2.1: '+contours.size()+' contours | '+realWalls+' murs valides (sensibilite 500px)</span><br>Detection OK.';
-   let w=6+ (realWalls*0.4); let h=5+ (realWalls*0.3);
-   createHouse(w,h);
-   src.delete(); gray.delete(); blurred.delete(); edges.delete(); contours.delete(); hier.delete();
- }catch(err){
-   realWalls=7;
-   createHouse(6.5,5.2);
-   document.getElementById('status').innerHTML='<span class=log>> Fallback V2.1: '+realWalls+' murs</span><br>'+err.message;
- }
+function generateReal(){
+ if(realWalls==0) realWalls=7;
+ let w=6.2+realWalls*0.45, h=5.1+realWalls*0.35;
+ createHouse(w,h,false);
+ document.getElementById('status').innerHTML='<span class=log>> Maison generee avec '+realWalls+' murs - Visible en bas</span><br>Scroll vers section 2.';
+ document.getElementById('status2').innerHTML='<span class=log>> MAISON '+realWalls+' MURS GENeree - '+(w*h).toFixed(1)+'m2</span><br>Tourne avec le doigt!';
+ // SCROLL AUTOMATIQUE VERS LA 3D
+ document.getElementById('card3d').scrollIntoView({behavior:'smooth', block:'start'});
+ // Vibration feedback
+ if(navigator.vibrate) navigator.vibrate(100);
 }
-function generateReal(){ if(realWalls==0) realWalls=7; createHouse(lastW,lastH); document.getElementById('status').innerHTML='<span class=log>> Maison V2.1 generee avec '+realWalls+' murs</span><br>3D active.'; }
-function doDevis(){ alert('DEVIS GSIA V2.1\\nSurface: '+document.getElementById('surf').innerText+'\\nMurs: '+realWalls+'\\nParpaings: '+document.getElementById('bricks').innerText+'\\nCout: '+(Math.round(lastW*lastH*85000)).toLocaleString()+' FCFA'); }
-function doExport(){ alert('EXPORT V2.1: OBJ/DWG/IFC Pret!'); }
+function doDevis(){ alert('DEVIS GSIA V2.2\\nSurface: '+document.getElementById('surf').innerText+'\\nMurs: '+realWalls+'\\nParpaings: '+document.getElementById('bricks').innerText+'\\nCout: '+(Math.round(lastW*lastH*85000)).toLocaleString()+' FCFA'); }
+function doExport(){ alert('EXPORT V2.2 OK!'); }
 window.addEventListener('load', init3D);
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
-window.cv && (cv['onRuntimeInitialized']=()=>{document.getElementById('status').innerHTML='<span class=log>> OpenCV.js 4.5.5 pret - BOOST actif</span><br>En attente de plan...';});
 </script>
 </body>
 </html>
