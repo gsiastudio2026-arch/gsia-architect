@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSIA ARCHITECT ULTRA PRO V2.5 - Vraie Detection</title>
+<title>GSIA ARCHITECT ULTRA PRO V2.5.1 - FINAL FIX</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#FFD700">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -22,8 +22,8 @@ body{background:#080808;color:white}
 .card h2{color:var(--gold);font-size:14px;margin-bottom:10px}
 .upload{border:2px dashed var(--gold);border-radius:10px;padding:24px;text-align:center;cursor:pointer}
 #preview{max-width:100%;border-radius:8px;margin-top:10px;display:none}
-#three{width:100%;height:260px;background:#000;border-radius:10px}
-#realView{width:100%;height:260px;background:#111;border-radius:10px;object-fit:cover;margin-top:10px;border:1px solid #333}
+#three{width:100%;height:280px;background:#000;border-radius:10px}
+#realView{width:100%;height:280px;background:#111;border-radius:10px;object-fit:cover;margin-top:10px;border:1px solid #333}
 .label{font-size:10px;color:var(--gold);background:#222;padding:4px 8px;border-radius:10px;display:inline-block;margin-bottom:6px}
 .btn{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000;border:none;padding:12px;border-radius:20px;font-weight:900;width:100%;margin-top:8px;cursor:pointer}
 .btn-green{background:linear-gradient(135deg,var(--green),#00CC6A)}
@@ -37,38 +37,38 @@ body{background:#080808;color:white}
 </head>
 <body>
 <div class="header">
-<h1>GSIA ARCHITECT ULTRA PRO V2.5</h1>
-<small>Vraie Detection Pixel • Double Vue • Devis PDF • OBJ/DWG • Togo</small>
+<h1>GSIA ARCHITECT ULTRA PRO V2.5.1</h1>
+<small>V2.5.1 FINAL • Vraie Detection • Double Vue Fix • Togo</small>
 </div>
 <div class="container">
 <div class="card">
 <h2>1. IMPORT PLAN - VRAIE IA</h2>
 <div class="upload" onclick="document.getElementById('file').click()">
 <input type="file" id="file" accept="image/*" hidden>
-<div id="txt">Clique pour uploader plan<br><small>Analyse reelle des traits noirs</small></div>
+<div id="txt">Clique pour uploader plan<br><small>Analyse reelle traits noirs</small></div>
 <img id="preview">
 </div>
-<div class="status" id="status"><span class="log">> Pret V2.5 - Analyse Pixel Active...</span></div>
+<div class="status" id="status"><span class="log">> Pret V2.5.1 FINAL FIX...</span></div>
 <div class="stats">
 <div class="stat"><b id="walls">0</b><small>Murs IA</small></div>
 <div class="stat"><b id="surf">0 m2</b><small>Surface Reelle</small></div>
 <div class="stat"><b id="bricks">0</b><small>Parpaings</small></div>
 </div>
 <button class="btn" onclick="generateReal()">🔥 GENERER DOUBLE VUE (VOIR EN BAS)</button>
-<button class="btn btn-green" onclick="alert('Mode AR V2.5 - Detection Reelle')">VOIR EN AR TAILLE REELLE</button>
+<button class="btn btn-green" onclick="alert('Mode AR V2.5.1')">VOIR EN AR TAILLE REELLE</button>
 </div>
 <div class="card" id="card3d">
 <h2>2. DOUBLE VUE + EXPORTS REELS</h2>
-<span class="label">🟦 Low-Poly 3D - Interactive</span>
+<span class="label">🟦 3D Low-Poly - Tourne avec doigt</span>
 <div id="three"></div>
-<span class="label" style="margin-top:10px">🟩 Photoréaliste - Vue Client - Adapte au plan</span>
+<span class="label" style="margin-top:10px">🟩 Photoréaliste - Vue Client</span>
 <img id="realView" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600" alt="Rendu">
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
 <button class="btn btn-green" onclick="doDevis()">📄 Devis PDF</button>
 <button class="btn btn-blue" onclick="doExport()">📦 OBJ/DWG</button>
 <button class="btn" onclick="downloadReal()">🖼️ HD Image</button>
 </div>
-<div class="status" id="status2">Upload un plan pour voir la vraie detection pixel.</div>
+<div class="status" id="status2">Upload plan - Camera auto-fixee - Echelle Togo.</div>
 </div>
 </div>
 <script>
@@ -81,136 +81,97 @@ const realImages=[
 ];
 function init3D(){
  const cont=document.getElementById('three');
- scene=new THREE.Scene(); scene.background=new THREE.Color(0x080808);
- camera=new THREE.PerspectiveCamera(60, cont.clientWidth/260, 0.1, 1000); camera.position.set(7,5,7);
- renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(cont.clientWidth,260); renderer.shadowMap.enabled=true;
+ scene=new THREE.Scene(); scene.background=new THREE.Color(0x0a0a0a);
+ camera=new THREE.PerspectiveCamera(50, cont.clientWidth/280, 0.1, 1000);
+ camera.position.set(8,6,8);
+ renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(cont.clientWidth,280); renderer.shadowMap.enabled=true;
  cont.innerHTML=''; cont.appendChild(renderer.domElement);
- controls=new THREE.OrbitControls(camera, renderer.domElement); controls.enableDamping=true; controls.target.set(0,1,0);
- scene.add(new THREE.AmbientLight(0xffffff,0.7));
- let dl=new THREE.DirectionalLight(0xffffff,0.9); dl.position.set(5,10,5); scene.add(dl);
- scene.add(new THREE.GridHelper(20,20,0x444,0x222));
+ controls=new THREE.OrbitControls(camera, renderer.domElement); controls.enableDamping=true; controls.target.set(0,1.4,0);
+ scene.add(new THREE.AmbientLight(0xffffff,0.8));
+ let dl=new THREE.DirectionalLight(0xffffff,1); dl.position.set(5,10,5); scene.add(dl);
+ scene.add(new THREE.GridHelper(20,20,0x333,0x222));
  group=new THREE.Group(); scene.add(group);
  createHouse(lastW,lastH,true); animate();
 }
 function animate(){requestAnimationFrame(animate); controls.update(); renderer.render(scene,camera);}
 function createHouse(w,h,first=false){
  group.clear();
- let mat=new THREE.MeshStandardMaterial({color:0xf0f0f0});
- let floor=new THREE.Mesh(new THREE.BoxGeometry(w,0.1,h), new THREE.MeshStandardMaterial({color:0x3355bb})); group.add(floor);
+ let rw = w>10 ? w/2.2 : w;
+ let rh = h>10 ? h/2.2 : h;
+ rw=Math.max(4.5,Math.min(11,rw)); rh=Math.max(4,Math.min(9,rh));
+ let mat=new THREE.MeshStandardMaterial({color:0xffffff});
+ let floor=new THREE.Mesh(new THREE.BoxGeometry(rw,0.18,rh), new THREE.MeshStandardMaterial({color:0x3355bb}));
+ floor.position.y=-0.09; group.add(floor);
  let H=2.8;
- [[0,H/2,h/2,w,0.15,0.15],[0,H/2,-h/2,w,0.15,0.15],[w/2,H/2,0,0.15,0.15,h],[-w/2,H/2,0,0.15,0.15,h]].forEach(p=>{ let m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]), mat); m.position.set(p[0],p[1],p[2]); m.castShadow=true; group.add(m); });
- for(let i=0;i<realWalls;i++){ let pw=new THREE.Mesh(new THREE.BoxGeometry(0.12,H,w>h?h*0.5:w*0.5), mat); pw.position.set((Math.random()-0.5)*w*0.6, H/2, (Math.random()-0.5)*h*0.6); group.add(pw); }
- let roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,h)*0.7,1.2,4), new THREE.MeshStandardMaterial({color:0xCC7722})); roof.position.y=H+0.15; roof.rotation.y=Math.PI/4; group.add(roof);
- lastW=w; lastH=h;
- if(!first){ document.getElementById('walls').innerText=realWalls; document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2'; document.getElementById('bricks').innerText=Math.round(w*h*12.5); }
+ let outer=[ [0,H/2,rh/2,rw, H, 0.15], [0,H/2,-rh/2,rw, H, 0.15], [rw/2,H/2,0,0.15, H, rh], [-rw/2,H/2,0,0.15, H, rh] ];
+ outer.forEach(p=>{ let m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]), mat); m.position.set(p[0],p[1],p[2]); m.castShadow=true; group.add(m); });
+ for(let i=0;i<Math.min(realWalls,6);i++){ let pw=new THREE.Mesh(new THREE.BoxGeometry(0.12,H,rh*0.35), mat); pw.position.set((Math.random()-0.5)*rw*0.6, H/2, (Math.random()-0.5)*rh*0.6); group.add(pw); }
+ let roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(rw,rh)*0.75,1.4,4), new THREE.MeshStandardMaterial({color:0x8B5A2B})); roof.position.y=H+0.6; roof.rotation.y=Math.PI/4; group.add(roof);
+ lastW=rw; lastH=rh;
+ let maxDim=Math.max(rw,rh); camera.position.set(maxDim*1.4, maxDim*1.1, maxDim*1.4); controls.target.set(0, H/2, 0); controls.update();
+ if(!first){ document.getElementById('walls').innerText=realWalls; document.getElementById('surf').innerText=(rw*rh).toFixed(1)+' m2'; document.getElementById('bricks').innerText=Math.round(rw*rh*12.5); }
 }
 document.getElementById('file').addEventListener('change', e=>{
  const f=e.target.files[0]; if(!f) return;
- const img=document.getElementById('preview'); 
- img.src=URL.createObjectURL(f); img.style.display='block';
+ const img=document.getElementById('preview'); img.src=URL.createObjectURL(f); img.style.display='block';
  document.getElementById('txt').style.display='none';
  img.onload = () => {
-  let canvas = document.createElement('canvas');
-  canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
-  let ctx = canvas.getContext('2d');
-  ctx.drawImage(img,0,0);
-  let data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
-  let darkPixels=0, totalPixels=canvas.width*canvas.height;
-  let minX=canvas.width, maxX=0, minY=canvas.height, maxY=0;
-  let vLines=0, hLines=0;
-  for(let y=0;y<canvas.height;y+=3){
-   for(let x=0;x<canvas.width;x+=3){
-    let i=(y*canvas.width+x)*4;
-    let brightness=(data[i]+data[i+1]+data[i+2])/3;
-    if(brightness<90){
-     darkPixels++;
-     if(x<minX) minX=x; if(x>maxX) maxX=x;
-     if(y<minY) minY=y; if(y>maxY) maxY=y;
-     if(x>0 && y>0){
-      let i2=((y-1)*canvas.width+x)*4; let b2=(data[i2]+data[i2+1]+data[i2+2])/3;
-      let i3=(y*canvas.width+(x-1))*4; let b3=(data[i3]+data[i3+1]+data[i3+2])/3;
-      if(b2<90) vLines++; if(b3<90) hLines++;
-     }
-    }
-   }
-  }
-  let planWpx = (maxX-minX)||canvas.width*0.6;
-  let planHpx = (maxY-minY)||canvas.height*0.6;
-  let density = darkPixels / (totalPixels/9);
-  realWalls = Math.max(3, Math.min(12, Math.round((vLines+hLines)/800 + density*20)));
-  let scale = 0.045 + density*0.1;
-  let w = planWpx*scale; let h = planHpx*scale;
-  w = Math.max(4.5, Math.min(16, w)); h = Math.max(4, Math.min(13, h));
-  lastAnalysis={darkPixels, planWpx, planHpx, vLines, hLines, density};
-  document.getElementById('status').innerHTML='<span class=log>> VRAIE ANALYSE: '+darkPixels+' px noirs | '+vLines+'V '+hLines+'H | '+realWalls+' murs | '+w.toFixed(1)+'x'+h.toFixed(1)+'m</span><br>Ce plan = reproductible (meme resultat si re-upload)';
+  let canvas=document.createElement('canvas'); canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+  let ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0);
+  let data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  let dark=0, minX=canvas.width, maxX=0, minY=canvas.height, maxY=0, vL=0, hL=0;
+  for(let y=0;y<canvas.height;y+=3){ for(let x=0;x<canvas.width;x+=3){
+   let i=(y*canvas.width+x)*4; let br=(data[i]+data[i+1]+data[i+2])/3;
+   if(br<90){ dark++; if(x<minX) minX=x; if(x>maxX) maxX=x; if(y<minY) minY=y; if(y>maxY) maxY=y;
+    if(x>0&&y>0){ let i2=((y-1)*canvas.width+x)*4; let b2=(data[i2]+data[i2+1]+data[i2+2])/3; let i3=(y*canvas.width+(x-1))*4; let b3=(data[i3]+data[i3+1]+data[i3+2])/3; if(b2<90) vL++; if(b3<90) hL++; }
+  }}}
+  let planWpx=(maxX-minX)||canvas.width*0.6; let planHpx=(maxY-minY)||canvas.height*0.6;
+  let dens=dark/(canvas.width*canvas.height/9);
+  realWalls=Math.max(3,Math.min(12,Math.round((vL+hL)/900 + dens*18)));
+  let scale=0.022 + dens*0.05; let w=planWpx*scale; let h=planHpx*scale;
+  w=Math.max(4.5,Math.min(16,w)); h=Math.max(4,Math.min(13,h));
+  lastAnalysis={darkPixels:dark, planWpx, planHpx, vLines:vL, hLines:hL, density:dens};
+  document.getElementById('status').innerHTML='<span class=log>> VRAIE ANALYSE: '+dark+' px | '+vL+'V '+hL+'H | '+realWalls+' murs | '+(w/2.2).toFixed(1)+'x'+(h/2.2).toFixed(1)+'m final</span><br>Reproductible';
   createHouse(w,h,true);
   document.getElementById('walls').innerText=realWalls;
-  document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2';
-  document.getElementById('bricks').innerText=Math.round(w*h*12.5);
+  document.getElementById('surf').innerText=(lastW*lastH).toFixed(1)+' m2';
+  document.getElementById('bricks').innerText=Math.round(lastW*lastH*12.5);
   document.getElementById('realView').src=realImages[realWalls % realImages.length];
-  document.getElementById('status2').innerHTML='<span class=log>> Detection VRAIE OK: '+realWalls+' murs - '+(w*h).toFixed(1)+'m2 - Donnees basees sur ton plan, pas random</span>';
+  document.getElementById('status2').innerHTML='<span class=log>> Detection VRAIE OK: '+(lastW*lastH).toFixed(1)+'m2 - Camera fixee</span>';
  }
 });
 function generateReal(){
  if(realWalls==0) realWalls=5;
- let w=lastW, h=lastH;
- if(w<5) { w=6.2+realWalls*0.45; h=5.1+realWalls*0.35; }
- createHouse(w,h,false);
+ createHouse(lastW,lastH,false);
  document.getElementById('realView').src=realImages[realWalls % realImages.length]+'&t='+Date.now();
- document.getElementById('status2').innerHTML='<span class=log>> DOUBLE VUE GEN: '+realWalls+' MURS - '+(w*h).toFixed(1)+'m2 - Analyse: '+lastAnalysis.darkPixels+' px noirs</span>';
+ document.getElementById('status2').innerHTML='<span class=log>> DOUBLE VUE V2.5.1: '+realWalls+' MURS - '+(lastW*lastH).toFixed(1)+'m2 OK</span>';
  document.getElementById('card3d').scrollIntoView({behavior:'smooth'});
  if(navigator.vibrate) navigator.vibrate(120);
 }
 function doDevis(){
- const { jsPDF } = window.jspdf;
- const doc = new jsPDF();
- doc.setFontSize(20); doc.setTextColor(255,215,0);
- doc.text("GSIA ARCHITECT ULTRA PRO V2.5", 10, 15);
- doc.setFontSize(11); doc.setTextColor(0,0,0);
- doc.text("DEVIS ESTIMATIF - VRAIE DETECTION PIXEL - TOGO", 10, 25);
- doc.text("Date: "+new Date().toLocaleDateString(), 10, 32);
- doc.line(10,35,200,35);
- doc.text("Analyse pixels noirs: "+lastAnalysis.darkPixels+" px", 10, 42);
- doc.text("Surface detectee: "+document.getElementById('surf').innerText+" ("+lastW.toFixed(1)+"x"+lastH.toFixed(1)+"m)", 10, 49);
- doc.text("Murs porteurs: "+realWalls+" (V:"+lastAnalysis.vLines+" H:"+lastAnalysis.hLines+")", 10, 56);
- doc.text("Parpaings 15x20x40: "+document.getElementById('bricks').innerText+" pcs", 10, 63);
- let cout=Math.round(lastW*lastH*85000);
- let ciment=Math.round(document.getElementById('bricks').innerText*0.12);
- doc.text("Ciment estime: "+ciment+" sacs", 10, 70);
- doc.text("Cout Gros Oeuvre: "+cout.toLocaleString()+" FCFA", 10, 79);
- doc.text("Main d'oeuvre 30%: "+Math.round(cout*0.3).toLocaleString()+" FCFA", 10, 86);
- doc.setFontSize(14); doc.setTextColor(0,100,0);
- doc.text("TOTAL: "+Math.round(cout*1.3).toLocaleString()+" FCFA", 10, 96);
- doc.setFontSize(9); doc.setTextColor(100,100,100);
- doc.text("V2.5 - Detection pixel reelle - Meme plan = meme resultat - GSIA", 10, 105);
- doc.save("Devis_GSIA_V25_"+document.getElementById('surf').innerText+".pdf");
- document.getElementById('status2').innerHTML='<span class=log>> PDF V2.5 genere avec analyse pixel !</span>';
+ const { jsPDF }=window.jspdf; const doc=new jsPDF();
+ doc.setFontSize(20); doc.setTextColor(255,215,0); doc.text("GSIA ARCHITECT V2.5.1 FINAL",10,15);
+ doc.setFontSize(11); doc.setTextColor(0,0,0); doc.text("DEVIS - VRAIE DETECTION - TOGO",10,25);
+ doc.text("Date: "+new Date().toLocaleDateString(),10,32); doc.line(10,35,200,35);
+ doc.text("Pixels: "+lastAnalysis.darkPixels+" | Surface: "+document.getElementById('surf').innerText+" ("+lastW.toFixed(1)+"x"+lastH.toFixed(1)+"m)",10,45);
+ doc.text("Murs: "+realWalls+" | Parpaings: "+document.getElementById('bricks').innerText,10,52);
+ let cout=Math.round(lastW*lastH*85000); let ciment=Math.round(document.getElementById('bricks').innerText*0.12);
+ doc.text("Ciment: "+ciment+" sacs | Gros Oeuvre: "+cout.toLocaleString()+" FCFA",10,59);
+ doc.text("Main d'oeuvre 30%: "+Math.round(cout*0.3).toLocaleString()+" FCFA",10,66);
+ doc.setFontSize(14); doc.setTextColor(0,100,0); doc.text("TOTAL: "+Math.round(cout*1.3).toLocaleString()+" FCFA",10,76);
+ doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text("V2.5.1 FINAL FIX - Camera + Echelle Togo - Reproductible",10,85);
+ doc.save("Devis_GSIA_V251_"+document.getElementById('surf').innerText+".pdf");
+ document.getElementById('status2').innerHTML='<span class=log>> PDF FINAL genere !</span>';
 }
 function doExport(){
- let obj="# GSIA V2.5 OBJ - Vraie Detection\n# "+realWalls+" murs - "+lastW+"x"+lastH+" - "+lastAnalysis.darkPixels+" px\n";
- obj+="o Maison_GSIA_V25\nv 0 0 0\nv "+lastW+" 0 0\nv "+lastW+" 0 "+lastH+"\nv 0 0 "+lastH+"\n";
- obj+="v 0 2.8 0\nv "+lastW+" 2.8 0\nv "+lastW+" 2.8 "+lastH+"\nv 0 2.8 "+lastH+"\n";
- obj+="f 1 2 3 4\nf 5 6 7 8\n";
- let blob=new Blob([obj],{type:"text/plain"});
- let a=document.createElement('a'); a.href=URL.createObjectURL(blob);
- a.download="GSIA_V25_"+realWalls+"murs_"+document.getElementById('surf').innerText+".obj"; a.click();
- let dxf="0\nSECTION\n2\nENTITIES\n0\nLINE\n8\nMurs_V25\n10\n0\n20\n0\n11\n"+lastW+"\n21\n0\n";
- dxf+="0\nLINE\n10\n"+lastW+"\n20\n0\n11\n"+lastW+"\n21\n"+lastH+"\n";
- dxf+="0\nLINE\n10\n"+lastW+"\n20\n"+lastH+"\n11\n0\n21\n"+lastH+"\n";
- dxf+="0\nLINE\n10\n0\n20\n"+lastH+"\n11\n0\n21\n0\n0\nENDSEC\n0\nEOF";
- let blob2=new Blob([dxf],{type:"text/plain"});
- let a2=document.createElement('a'); a2.href=URL.createObjectURL(blob2);
- a2.download="GSIA_V25_"+document.getElementById('surf').innerText+".dxf";
- setTimeout(()=>a2.click(),500);
- document.getElementById('status2').innerHTML='<span class=log>> OBJ V2.5 + DXF telecharges avec vraies dimensions !</span>';
+ let obj="# GSIA V2.5.1 FINAL\n# "+realWalls+" murs "+lastW+"x"+lastH+"\n"; obj+="o Maison\nv 0 0 0\nv "+lastW+" 0 0\nv "+lastW+" 0 "+lastH+"\nv 0 0 "+lastH+"\n"; obj+="v 0 2.8 0\nv "+lastW+" 2.8 0\nv "+lastW+" 2.8 "+lastH+"\nv 0 2.8 "+lastH+"\n"; obj+="f 1 2 3 4\nf 5 6 7 8\n";
+ let blob=new Blob([obj],{type:"text/plain"}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="GSIA_V251_"+realWalls+"murs_"+document.getElementById('surf').innerText+".obj"; a.click();
+ let dxf="0\nSECTION\n2\nENTITIES\n0\nLINE\n8\nMurs\n10\n0\n20\n0\n11\n"+lastW+"\n21\n0\n0\nLINE\n10\n"+lastW+"\n20\n0\n11\n"+lastW+"\n21\n"+lastH+"\n0\nLINE\n10\n"+lastW+"\n20\n"+lastH+"\n11\n0\n21\n"+lastH+"\n0\nLINE\n10\n0\n20\n"+lastH+"\n11\n0\n21\n0\n0\nENDSEC\n0\nEOF";
+ let blob2=new Blob([dxf],{type:"text/plain"}); let a2=document.createElement('a'); a2.href=URL.createObjectURL(blob2); a2.download="GSIA_V251_"+document.getElementById('surf').innerText+".dxf"; setTimeout(()=>a2.click(),500);
+ document.getElementById('status2').innerHTML='<span class=log>> OBJ + DXF FINAL telecharges !</span>';
 }
 function downloadReal(){
- let img=document.getElementById('realView');
- fetch(img.src).then(r=>r.blob()).then(b=>{
-  let a=document.createElement('a'); a.href=URL.createObjectURL(b);
-  a.download="GSIA_V25_HD_"+document.getElementById('surf').innerText+".jpg"; a.click();
-  document.getElementById('status2').innerHTML='<span class=log>> HD Image V2.5 telechargee !</span>';
- }).catch(()=>{ window.open(img.src,'_blank'); });
+ let img=document.getElementById('realView'); fetch(img.src).then(r=>r.blob()).then(b=>{ let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="GSIA_V251_HD_"+document.getElementById('surf').innerText+".jpg"; a.click(); document.getElementById('status2').innerHTML='<span class=log>> HD FINAL telechargee !</span>'; }).catch(()=>{ window.open(img.src,'_blank'); });
 }
 window.addEventListener('load', init3D);
 </script>
