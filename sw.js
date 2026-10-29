@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gsia-v25-final';
+const CACHE_NAME = 'gsia-v251-final';
 const urlsToCache = [
   './?v=25',
   './manifest.json'
