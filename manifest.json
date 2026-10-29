@@ -1,9 +1,9 @@
-{
-  "name": "GSIA ARCHITECT ULTRA PRO V2.5",
-  "short_name": "GSIA V2.5",
-  "start_url": "./?v=25",
+ {
+  "name": "GSIA ARCHITECT ULTRA PRO V2.5.1",
+  "short_name": "GSIA V2.5.1",
+  "start_url": "./?v=251",
   "display": "standalone",
   "background_color": "#080808",
   "theme_color": "#FFD700",
-  "version": "2.5"
+  "version": "2.5.1"
 }
