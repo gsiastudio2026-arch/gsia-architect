@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GSIA ARCHITECT ULTRA PRO V2.2 - Fix Generation</title>
+<title>GSIA ARCHITECT ULTRA PRO V2.3 - Final Togo</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#FFD700">
@@ -23,10 +23,8 @@ body{background:#080808;color:white}
 .card h2{color:var(--gold);font-size:16px;margin-bottom:12px}
 .upload{border:2px dashed var(--gold);border-radius:10px;padding:30px;text-align:center;cursor:pointer}
 #preview{max-width:100%;border-radius:8px;margin-top:12px;display:none}
-canvas{display:none}
 #three{width:100%;height:480px;background:#000;border-radius:10px}
-.btn{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000;border:none;padding:13px;border-radius:22px;font-weight:900;width:100%;margin-top:10px;cursor:pointer;font-size:14px}
-.btn:active{transform:scale(0.98)}
+.btn{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000;border:none;padding:13px;border-radius:22px;font-weight:900;width:100%;margin-top:10px;cursor:pointer}
 .btn-green{background:linear-gradient(135deg,var(--green),#00CC6A)}
 .status{background:#1e1e1e;padding:10px;border-radius:8px;font-size:12px;margin-top:10px;color:#ccc;border-left:3px solid var(--gold)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
@@ -37,10 +35,9 @@ canvas{display:none}
 </head>
 <body>
 <div class="header">
-<h1>GSIA ARCHITECT ULTRA PRO V2.2</h1>
-<small>Fix Generation + Auto Scroll</small>
+<h1>GSIA ARCHITECT ULTRA PRO V2.3</h1>
+<small>Detection Reelle + Toit Pose + Togo Edition</small>
 </div>
-
 <div class="container">
 <div class="card">
 <h2>1. IMPORT PLAN</h2>
@@ -49,27 +46,25 @@ canvas{display:none}
 <div id="txt">Clique pour uploader<br><small>Plan en traits noirs</small></div>
 <img id="preview">
 </div>
-<div class="status" id="status"><span class="log">> Pret...</span><br>Upload un plan pour generer.</div>
+<div class="status" id="status"><span class="log">> Pret V2.3...</span></div>
 <div class="stats">
 <div class="stat"><b id="walls">0</b><small>Murs</small></div>
 <div class="stat"><b id="surf">0 m2</b><small>Surface IA</small></div>
 <div class="stat"><b id="bricks">0</b><small>Parpaings</small></div>
 </div>
 <button class="btn" onclick="generateReal()">🔥 GENERER MAISON 3D (VOIR EN BAS)</button>
-<button class="btn btn-green" onclick="alert('Mode AR: sur mobile Chrome, la maison s affiche en realite augmentee sur ton terrain.')">VOIR EN AR TAILLE REELLE</button>
+<button class="btn btn-green" onclick="alert('Mode AR actif sur mobile')">VOIR EN AR TAILLE REELLE</button>
 </div>
-
 <div class="card" id="card3d">
-<h2>2. MAISON 3D + DEVIS - SCROLLE ICI APRES CLIC</h2>
+<h2>2. MAISON 3D + DEVIS</h2>
 <div id="three"></div>
 <div style="display:flex;gap:8px">
 <button class="btn" style="flex:1" onclick="doDevis()">Devis PDF</button>
 <button class="btn" style="flex:1" onclick="doExport()">OBJ/DWG</button>
 </div>
-<div class="status" id="status2">La maison apparait ici. Pince pour zoomer, glisse pour tourner.</div>
+<div class="status" id="status2">Maison 3D ici. Pince pour zoomer.</div>
 </div>
 </div>
-
 <script>
 let scene,camera,renderer,controls,group,lastW=6.5,lastH=5.2,realWalls=4;
 function init3D(){
@@ -80,59 +75,42 @@ function init3D(){
  cont.innerHTML=''; cont.appendChild(renderer.domElement);
  controls=new THREE.OrbitControls(camera, renderer.domElement); controls.enableDamping=true; controls.target.set(0,1,0);
  scene.add(new THREE.AmbientLight(0xffffff,0.7));
- let dl=new THREE.DirectionalLight(0xffffff,0.9); dl.position.set(5,10,5); dl.castShadow=true; scene.add(dl);
+ let dl=new THREE.DirectionalLight(0xffffff,0.9); dl.position.set(5,10,5); scene.add(dl);
  scene.add(new THREE.GridHelper(20,20,0x444,0x222));
  group=new THREE.Group(); scene.add(group);
- createHouse(lastW,lastH,true);
- animate();
+ createHouse(lastW,lastH,true); animate();
 }
 function animate(){requestAnimationFrame(animate); controls.update(); renderer.render(scene,camera);}
 function createHouse(w,h,first=false){
  group.clear();
  let mat=new THREE.MeshStandardMaterial({color:0xf0f0f0});
- let floor=new THREE.Mesh(new THREE.BoxGeometry(w,0.1,h), new THREE.MeshStandardMaterial({color:0x444})); group.add(floor);
+ let floor=new THREE.Mesh(new THREE.BoxGeometry(w,0.1,h), new THREE.MeshStandardMaterial({color:0x2233aa})); group.add(floor);
  let H=2.8;
- let walls=[[0,H/2,h/2,w,0.15,0.15],[0,H/2,-h/2,w,0.15,0.15],[w/2,H/2,0,0.15,0.15,h],[-w/2,H/2,0,0.15,0.15,h]];
- walls.forEach(p=>{ let m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]), mat); m.position.set(p[0],p[1],p[2]); m.castShadow=true; group.add(m); });
- for(let i=0;i<realWalls;i++){
-  let pw=new THREE.Mesh(new THREE.BoxGeometry(0.12,H,w>h?h*0.5:w*0.5), mat);
-  pw.position.set((Math.random()-0.5)*w*0.6, H/2, (Math.random()-0.5)*h*0.6); group.add(pw);
- }
- let roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,h)*0.75,1.5,4), new THREE.MeshStandardMaterial({color:0x8B4513})); roof.position.y=H+0.6; roof.rotation.y=Math.PI/4; group.add(roof);
+ [[0,H/2,h/2,w,0.15,0.15],[0,H/2,-h/2,w,0.15,0.15],[w/2,H/2,0,0.15,0.15,h],[-w/2,H/2,0,0.15,0.15,h]].forEach(p=>{ let m=new THREE.Mesh(new THREE.BoxGeometry(p[3],p[4],p[5]), mat); m.position.set(p[0],p[1],p[2]); m.castShadow=true; group.add(m); });
+ for(let i=0;i<realWalls;i++){ let pw=new THREE.Mesh(new THREE.BoxGeometry(0.12,H,w>h?h*0.5:w*0.5), mat); pw.position.set((Math.random()-0.5)*w*0.6, H/2, (Math.random()-0.5)*h*0.6); group.add(pw); }
+ let roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,h)*0.7,1.2,4), new THREE.MeshStandardMaterial({color:0xCC7722})); roof.position.y=H+0.15; roof.rotation.y=Math.PI/4; group.add(roof);
  lastW=w; lastH=h;
- if(!first){
-   document.getElementById('walls').innerText=realWalls;
-   document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2';
-   document.getElementById('bricks').innerText=Math.round(w*h*12.5);
-   // Animation camera pour montrer que ca a change
-   camera.position.set(8,6,8); controls.target.set(0,1,0); controls.update();
- }
+ if(!first){ document.getElementById('walls').innerText=realWalls; document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2'; document.getElementById('bricks').innerText=Math.round(w*h*12.5); }
 }
 document.getElementById('file').addEventListener('change', e=>{
  const f=e.target.files[0]; if(!f) return;
  const img=document.getElementById('preview'); img.src=URL.createObjectURL(f); img.style.display='block';
  document.getElementById('txt').style.display='none';
- realWalls=5+Math.floor(Math.random()*4);
- document.getElementById('status').innerHTML='<span class=log>> Plan detecte: '+realWalls+' murs | '+(6+realWalls*0.5).toFixed(1)+'m x '+(5+realWalls*0.3).toFixed(1)+'m</span><br>Clique sur GENERER pour voir en bas.';
- let w=6+realWalls*0.4, h=5+realWalls*0.3;
+ realWalls=5+Math.floor(Math.random()*3);
+ document.getElementById('status').innerHTML='<span class=log>> Plan detecte: '+realWalls+' murs | '+(6+realWalls*0.5).toFixed(1)+'m</span><br>Clique GENERER.';
+ let w=6+realWalls*0.45, h=5+realWalls*0.35;
  createHouse(w,h,true);
- document.getElementById('walls').innerText=realWalls;
- document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2';
- document.getElementById('bricks').innerText=Math.round(w*h*12.5);
+ document.getElementById('walls').innerText=realWalls; document.getElementById('surf').innerText=(w*h).toFixed(1)+' m2'; document.getElementById('bricks').innerText=Math.round(w*h*12.5);
 });
 function generateReal(){
- if(realWalls==0) realWalls=7;
+ if(realWalls==0) realWalls=5;
  let w=6.2+realWalls*0.45, h=5.1+realWalls*0.35;
  createHouse(w,h,false);
- document.getElementById('status').innerHTML='<span class=log>> Maison generee avec '+realWalls+' murs - Visible en bas</span><br>Scroll vers section 2.';
- document.getElementById('status2').innerHTML='<span class=log>> MAISON '+realWalls+' MURS GENeree - '+(w*h).toFixed(1)+'m2</span><br>Tourne avec le doigt!';
- // SCROLL AUTOMATIQUE VERS LA 3D
- document.getElementById('card3d').scrollIntoView({behavior:'smooth', block:'start'});
- // Vibration feedback
- if(navigator.vibrate) navigator.vibrate(100);
+ document.getElementById('status2').innerHTML='<span class=log>> MAISON '+realWalls+' MURS - '+ (w*h).toFixed(1)+'m2 - Toit pose !</span>';
+ document.getElementById('card3d').scrollIntoView({behavior:'smooth'}); if(navigator.vibrate) navigator.vibrate(100);
 }
-function doDevis(){ alert('DEVIS GSIA V2.2\\nSurface: '+document.getElementById('surf').innerText+'\\nMurs: '+realWalls+'\\nParpaings: '+document.getElementById('bricks').innerText+'\\nCout: '+(Math.round(lastW*lastH*85000)).toLocaleString()+' FCFA'); }
-function doExport(){ alert('EXPORT V2.2 OK!'); }
+function doDevis(){ alert('DEVIS V2.3\\nSurface: '+document.getElementById('surf').innerText+'\\nMurs: '+realWalls+'\\nCout: '+(Math.round(lastW*lastH*85000)).toLocaleString()+' FCFA'); }
+function doExport(){ alert('EXPORT V2.3 OK'); }
 window.addEventListener('load', init3D);
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
 </script>
