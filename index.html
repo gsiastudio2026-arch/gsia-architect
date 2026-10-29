@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GSIA ARCHITECT ULTRA PRO V2 - Real Detection</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#FFD700">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GSIA ARCHITECT">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script async src="https://docs.opencv.org/4.5.5/opencv.js"></script>
@@ -30,12 +35,14 @@ canvas{display:none}
 .stat{background:#222;padding:8px;border-radius:8px;text-align:center}
 .stat b{color:var(--gold);display:block}
 .log{font-size:11px;color:#00FF88;font-family:monospace}
+.install{background:#FFD700;color:#000;padding:8px;text-align:center;font-weight:800;display:none}
 </style>
 </head>
 <body>
+<div class="install" id="installBar">📲 Installer GSIA ARCHITECT sur ton téléphone <button onclick="installApp()" style="margin-left:10px;padding:4px 10px;border-radius:10px;border:none;font-weight:800">INSTALLER</button></div>
 <div class="header">
 <h1>GSIA ARCHITECT ULTRA PRO V2</h1>
-<small>OpenCV.js Real Detection | Togo Edition | Nouveau Repo: gsia-architect</small>
+<small>OpenCV.js Real Detection | Togo Edition | App Installable</small>
 </div>
 
 <div class="container">
@@ -72,6 +79,9 @@ canvas{display:none}
 <script>
 let scene,camera,renderer,controls,group;
 let realWalls=0, lastW=6, lastH=5;
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBar').style.display='block'; });
+function installApp(){ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; document.getElementById('installBar').style.display='none'; }); } }
 function init3D(){
  const cont=document.getElementById('three');
  scene=new THREE.Scene(); scene.background=new THREE.Color(0x060606);
@@ -151,6 +161,7 @@ function generateReal(){
 function doDevis(){ alert('DEVIS GSIA ARCHITECT V2\\nSurface IA: '+document.getElementById('surf').innerText+'\\nMurs: '+realWalls+'\\nParpaings: '+document.getElementById('bricks').innerText+'\\nEstimation: '+(Math.round(lastW*lastH*85000)).toLocaleString()+' FCFA'); }
 function doExport(){ alert('EXPORT PRO V2: maison_GSIA_V2.obj / dwg / ifc / glb Pret!'); }
 window.addEventListener('load', init3D);
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
 window.cv && (cv['onRuntimeInitialized']=()=>{document.getElementById('status').innerHTML='<span class=log>> OpenCV.js pret (4.5.5)</span><br>En attente de plan...';});
 </script>
 </body>
